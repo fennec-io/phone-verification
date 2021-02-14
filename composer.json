@@ -20,7 +20,7 @@
         },
         "laravel": {
             "providers": [
-                "Laravel\\Fortify\\FortifyServiceProvider"
+                "Fennecio\\PhoneVerification\\PhoneVerificationServiceProvider"
             ]
         }
     },
