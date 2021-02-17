@@ -32,6 +32,15 @@
           Verify
         </jet-button>
       </form>
+      <div v-if="verificationLinkInvalid" class="mb-4 font-medium text-sm text-red-600">
+        Verification code Invalid
+      </div>
+      
+    </div>
+    <div v-if="verificationLinkNotSend">
+      <div class="mb-4 font-medium text-sm text-green-600">
+        Verification code not sent try again
+      </div>
     </div>
 
     <form @submit.prevent="submit">
@@ -109,6 +118,12 @@ export default {
   computed: {
     verificationLinkSent() {
       return this.status === "phone-code-sended";
+    },
+    verificationLinkInvalid() {
+      return this.status === "phone-code-invalid";
+    },
+    verificationLinkNotSend() {
+      return this.status === "phone-code-notsended";
     },
   },
   mounted() {

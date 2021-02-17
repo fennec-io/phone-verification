@@ -17,20 +17,16 @@ class PhoneVerificationPromptController extends Controller
     public function __construct()
     {
         $this->blade = config('phone_verification.blade_name');
-        // dd($this->blade);
-        // dd('xx');
-
     }
 
     /**
-     * Display the email verification prompt.
+     * Display the phone verification prompt.
      *
      * @param  \Illuminate\Http\Request  $request
      */
 
     public function __invoke(Request $request)
     {
-        // dd(Auth::user());
         return $request->user()->hasVerifiedPhone()
                     ? redirect()->intended(config('fortify.home'))
                     : Inertia::render($this->blade,[
@@ -53,7 +49,7 @@ class PhoneVerificationPromptController extends Controller
         $sessionInfo = $resp['sessionInfo'];
 
         }catch(Exception $e){
-            $status = $e->getMessage();
+            $status = "phone-code-notsended"; 
         }
         return $request->wantsJson()
         ? new JsonResponse('', 200)
@@ -79,7 +75,7 @@ class PhoneVerificationPromptController extends Controller
             return Inertia::render($this->blade,[
                 'firebase_config' => Setting::getCurrent()->firebase_config,
                 // 'sessionInfo' => $resp['sessionInfo'],
-                'status' => $e->getMessage()
+                'status' => "phone-code-invalid"
             ]);
         }
 
