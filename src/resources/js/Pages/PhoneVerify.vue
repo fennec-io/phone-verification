@@ -9,7 +9,7 @@
       just send to you and enter on the section below,If you didn't receive the
       code, we will gladly send you another.
     </div>
-    <div v-if="verificationLinkSent">
+    <div v-if="verificationCodeSent">
       <div class="mb-4 font-medium text-sm text-green-600">
         Verification code has been sent to your phone number
       </div>
@@ -32,13 +32,38 @@
           Verify
         </jet-button>
       </form>
-      <div v-if="verificationLinkInvalid" class="mb-4 font-medium text-sm text-red-600">
-        Verification code Invalid
-      </div>
       
     </div>
-    <div v-if="verificationLinkNotSend">
-      <div class="mb-4 font-medium text-sm text-green-600">
+    <div v-if="verificationCodeInvalid">
+      
+     <div  class="mb-4 font-medium text-sm text-red-600">
+        Verification code Invalid
+      </div>
+
+      <form @submit.prevent="submit_code">
+        <div class="mt-4 mb-4">
+          <jet-label for="code" value="Code" />
+          <jet-input
+            id="code"
+            type="text"
+            class="mt-1 block w-full"
+            v-model="code"
+            required
+          />
+        </div>
+
+        <jet-button
+          :class="{ 'opacity-25': form_code.processing }"
+          :disabled="form_code.processing"
+        >
+          Verify
+        </jet-button>
+      </form>
+      
+      
+    </div>
+    <div v-if="verificationCodeNotSend">
+      <div class="mb-4 font-medium text-sm text-red-600">
         Verification code not sent try again
       </div>
     </div>
@@ -116,13 +141,13 @@ export default {
   },
 
   computed: {
-    verificationLinkSent() {
+    verificationCodeSent() {
       return this.status === "phone-code-sended";
     },
-    verificationLinkInvalid() {
+    verificationCodeInvalid() {
       return this.status === "phone-code-invalid";
     },
-    verificationLinkNotSend() {
+    verificationCodeNotSend() {
       return this.status === "phone-code-notsended";
     },
   },
